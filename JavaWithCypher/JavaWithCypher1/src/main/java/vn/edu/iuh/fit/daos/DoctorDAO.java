@@ -43,15 +43,15 @@ public class DoctorDAO {
         }
     }
 
-    public Map<String, Long> getNoOfDoctorsBySpeciality(String departmentId) {
+    public Map<String, Long> getNoOfDoctorsBySpeciality(String departmentName) {
         String query =
                 """
                 MATCH (d:Doctor) - [r:BELONG_TO] -> (dp:Department)
-                WHERE dp.name = $departmentId
+                WHERE dp.name = $departmentName
                 RETURN d.speciality as speciality, count (d) as total
                 """;
         Map<String, Object> params = Map.of(
-            "departmentId", departmentId
+            "departmentName", departmentName
         );
 
         try (Session session = AppUtil.getSession()) {
