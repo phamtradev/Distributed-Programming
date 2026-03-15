@@ -1,14 +1,14 @@
 package vn.edu.iuh.fit.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@ToString
 public class ClassInfo {
 
     private String name;
@@ -16,5 +16,7 @@ public class ClassInfo {
     private int room;
     private String startTime;
     private String endTime;
+
     private List<Student> students;
+
 }
