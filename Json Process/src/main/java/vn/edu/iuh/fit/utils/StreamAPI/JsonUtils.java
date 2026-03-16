@@ -1,0 +1,164 @@
+package vn.edu.iuh.fit.utils.StreamAPI;
+
+import jakarta.json.Json;
+import jakarta.json.JsonWriterFactory;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
+import jakarta.json.stream.JsonParser;
+import vn.edu.iuh.fit.model.Address;
+import vn.edu.iuh.fit.model.ClassInfo;
+import vn.edu.iuh.fit.model.Student;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class JsonUtils {
+
+    public static List<ClassInfo> fromJson(String fileName) {
+
+        List<ClassInfo> res = new ArrayList<>();
+
+        try (JsonParser parser = Json.createParser(new FileReader(fileName))) {
+
+            ClassInfo classInfo = null;
+            List<Student> students = null;
+            Student student = null;
+            Address address = null;
+
+            String key = "";
+            String currentObject = "";
+
+            while (parser.hasNext()) {
+                JsonParser.Event event = parser.next();
+
+                switch (event) {
+                    case START_ARRAY -> {
+                        if (key.equalsIgnoreCase("students")) {
+                            students = new ArrayList<>();
+                        }
+                    }
+                    case START_OBJECT -> {
+                        if (classInfo == null) {
+                            classInfo = new ClassInfo();
+                            currentObject = "classinfo";
+                        } else if (student == null) {
+                            student = new Student();
+                            currentObject = "student";
+                        } else if (address == null) {
+                            address = new Address();
+                            currentObject = "address";
+                        }
+                    }
+                    case END_OBJECT -> {
+                        if (address != null) {
+                            student.setAddress(address);
+                            address = null;
+                            currentObject = "student";
+                        } else if (student != null) {
+                            students.add(student);
+                            student = null;
+                            currentObject = "classinfo";
+                        } else if (classInfo != null) {
+                            classInfo.setStudents(students);
+                            res.add(classInfo);
+                            classInfo = null;
+                        }
+                    }
+                    case KEY_NAME -> {
+                        key = parser.getString();
+                    }
+                    case VALUE_STRING -> {
+                        String value = parser.getString();
+
+                        switch (key) {
+                            case "name" -> {
+                                if (currentObject.equalsIgnoreCase("classinfo"))
+                                    classInfo.setName(value);
+                                else
+                                    student.setName(value);
+                            }
+                            case "teacher" -> classInfo.setTeacher(value);
+                            case "start_time" -> classInfo.setStartTime(value);
+                            case "end_time" -> classInfo.setEndTime(value);
+                            case "street" -> address.setStreet(value);
+                            case "city" -> address.setCity(value);
+                            case "state" -> address.setState(value);
+                            case "zip" -> address.setZip(value);
+                        }
+                    }
+                    case VALUE_NUMBER -> {
+                        switch (key) {
+                            case "room" -> classInfo.setRoom(parser.getInt());
+                            case "age" -> student.setAge(parser.getInt());
+                            case "gpa" -> student.setGpa(parser.getBigDecimal().doubleValue());
+
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public static void toJson(List<ClassInfo> classInfos, String fileName) {
+        //config pretty
+        Map<String, Object> config = new HashMap<>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonGeneratorFactory jsonGeneratorFactory = Json.createGeneratorFactory(config);
+
+        try (JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(new FileWriter(fileName))) {
+
+            jsonGenerator.writeStartArray();
+
+            classInfos.forEach(classInfo -> {
+                jsonGenerator.writeStartObject();
+
+                jsonGenerator.write("name", classInfo.getName());
+                jsonGenerator.write("teacher", classInfo.getTeacher());
+                jsonGenerator.write("room", classInfo.getRoom());
+                jsonGenerator.write("start_time", classInfo.getStartTime());
+                jsonGenerator.write("end_time", classInfo.getEndTime());
+
+                jsonGenerator.writeStartArray("students");
+
+                classInfo.getStudents().forEach(student -> {
+                    jsonGenerator.writeStartObject();
+
+                    jsonGenerator.write("name", student.getName());
+                    jsonGenerator.write("age", student.getAge());
+                    jsonGenerator.write("gpa", student.getGpa());
+
+                    Address address = student.getAddress();
+                    jsonGenerator.writeStartObject("address");
+
+                    jsonGenerator.write("street", address.getStreet());
+                    jsonGenerator.write("city", address.getCity());
+                    jsonGenerator.write("state", address.getState());
+                    jsonGenerator.write("zip", address.getZip());
+
+                    jsonGenerator.writeEnd();
+
+                    jsonGenerator.writeEnd();
+                });
+
+                jsonGenerator.writeEnd();
+
+                jsonGenerator.writeEnd();
+            });
+
+            jsonGenerator.writeEnd();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+}
