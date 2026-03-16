@@ -1,14 +1,12 @@
-package vn.edu.iuh.fit.utils;
+package vn.edu.iuh.fit.utils.ObjectModelAPI;
 
 
 import jakarta.json.*;
-import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.stream.JsonGenerator;
 import vn.edu.iuh.fit.model.Address;
 import vn.edu.iuh.fit.model.ClassInfo;
 import vn.edu.iuh.fit.model.Student;
 
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.*;
@@ -77,7 +75,6 @@ public class JsonUtils {
     //write json
     public static void toJson(List<ClassInfo> classInfos, String fileName) {
 
-        //config cho dep
         Map<String, Object> config = new HashMap<>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(config);
@@ -118,10 +115,10 @@ public class JsonUtils {
                 classInfoJsonObject.add("students", studentJsonArray);
 
                 classInfoJsonArray.add(classInfoJsonObject);
-
             });
 
             writer.writeArray(classInfoJsonArray.build());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
