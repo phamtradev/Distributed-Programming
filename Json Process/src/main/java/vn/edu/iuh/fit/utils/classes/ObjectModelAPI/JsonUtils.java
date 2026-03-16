@@ -1,11 +1,11 @@
-package vn.edu.iuh.fit.utils.ObjectModelAPI;
+package vn.edu.iuh.fit.utils.classes.ObjectModelAPI;
 
 
 import jakarta.json.*;
 import jakarta.json.stream.JsonGenerator;
-import vn.edu.iuh.fit.model.Address;
-import vn.edu.iuh.fit.model.ClassInfo;
-import vn.edu.iuh.fit.model.Student;
+import vn.edu.iuh.fit.model.classes.Address;
+import vn.edu.iuh.fit.model.classes.ClassInfo;
+import vn.edu.iuh.fit.model.classes.Student;
 
 import java.io.FileReader;
 import java.io.FileWriter;

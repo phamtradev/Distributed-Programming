@@ -1,0 +1,17 @@
+package vn.edu.iuh.fit.main.classes;
+
+import vn.edu.iuh.fit.model.classes.ClassInfo;
+import vn.edu.iuh.fit.utils.classes.ObjectModelAPI.JsonUtils;
+
+import java.util.List;
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+public class ObjectModelAPIMain {
+    public static void main(String[] args) {
+        List<ClassInfo> res = JsonUtils.fromJson("Json Process/json/classes/classes.json");
+        res.forEach(System.out::println);
+
+        JsonUtils.toJson(res, "Json Process/json/classes/classes2.json");
+    }
+}

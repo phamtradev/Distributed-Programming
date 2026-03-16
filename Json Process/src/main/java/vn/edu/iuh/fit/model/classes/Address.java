@@ -1,4 +1,4 @@
-package vn.edu.iuh.fit.model;
+package vn.edu.iuh.fit.model.classes;
 
 import lombok.*;
 

@@ -1,13 +1,12 @@
-package vn.edu.iuh.fit.utils.StreamAPI;
+package vn.edu.iuh.fit.utils.classes.StreamAPI;
 
 import jakarta.json.Json;
-import jakarta.json.JsonWriterFactory;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
 import jakarta.json.stream.JsonParser;
-import vn.edu.iuh.fit.model.Address;
-import vn.edu.iuh.fit.model.ClassInfo;
-import vn.edu.iuh.fit.model.Student;
+import vn.edu.iuh.fit.model.classes.Address;
+import vn.edu.iuh.fit.model.classes.ClassInfo;
+import vn.edu.iuh.fit.model.classes.Student;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -66,6 +65,7 @@ public class JsonUtils {
                             classInfo.setStudents(students);
                             res.add(classInfo);
                             classInfo = null;
+                            students = null;
                         }
                     }
                     case KEY_NAME -> {
@@ -95,7 +95,6 @@ public class JsonUtils {
                             case "room" -> classInfo.setRoom(parser.getInt());
                             case "age" -> student.setAge(parser.getInt());
                             case "gpa" -> student.setGpa(parser.getBigDecimal().doubleValue());
-
                         }
                     }
                 }
@@ -108,7 +107,8 @@ public class JsonUtils {
     }
 
     public static void toJson(List<ClassInfo> classInfos, String fileName) {
-        //config pretty
+
+        //config pretty json
         Map<String, Object> config = new HashMap<>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonGeneratorFactory jsonGeneratorFactory = Json.createGeneratorFactory(config);
@@ -159,6 +159,5 @@ public class JsonUtils {
             e.printStackTrace();
         }
     }
-
 
 }
