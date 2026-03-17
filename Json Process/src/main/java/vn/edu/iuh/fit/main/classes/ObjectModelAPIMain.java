@@ -1,6 +1,8 @@
 package vn.edu.iuh.fit.main.classes;
 
+import jakarta.json.Json;
 import vn.edu.iuh.fit.model.classes.ClassInfo;
+import vn.edu.iuh.fit.model.classes.Student;
 import vn.edu.iuh.fit.utils.classes.ObjectModelAPI.JsonUtils;
 
 import java.util.List;
@@ -9,9 +11,15 @@ import java.util.List;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class ObjectModelAPIMain {
     public static void main(String[] args) {
-        List<ClassInfo> res = JsonUtils.fromJson("Json Process/json/classes/classes.json");
+//        List<ClassInfo> res = JsonUtils.fromJson("Json Process/json/classes/classes.json");
+//        res.forEach(System.out::println);
+
+
+//        JsonUtils.toJson(res, "Json Process/json/classes/classes2.json");
+
+        List<Student> res = JsonUtils.listStudentByClassName("Math", "Json Process/json/classes/classes.json");
         res.forEach(System.out::println);
 
-        JsonUtils.toJson(res, "Json Process/json/classes/classes2.json");
+        JsonUtils.writeStudentByClassNameToJson(res, "Json Process/json/classes/student.json");
     }
 }

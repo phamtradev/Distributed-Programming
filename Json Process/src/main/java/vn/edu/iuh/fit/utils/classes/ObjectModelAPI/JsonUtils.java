@@ -9,6 +9,7 @@ import vn.edu.iuh.fit.model.classes.Student;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.Writer;
 import java.util.*;
 
 public class JsonUtils {
@@ -118,6 +119,88 @@ public class JsonUtils {
             });
 
             writer.writeArray(classInfoJsonArray.build());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //doc file co dieu kien
+    public static List<Student> listStudentByClassName(String className, String fileName) {
+
+        List<Student> res = new ArrayList<>();
+
+        try (JsonReader reader = Json.createReader(new FileReader(fileName))) {
+
+            JsonArray classInfoJsonArray = reader.readArray();
+            classInfoJsonArray.forEach(clasInfoValue -> {
+                JsonObject classInfoJsonObject = clasInfoValue.asJsonObject();
+
+                String name = classInfoJsonObject.getString("name");
+
+                if (name.equalsIgnoreCase(className)) {
+                    JsonArray studentJsonArray = classInfoJsonObject.getJsonArray("students");
+
+                    studentJsonArray.forEach(studentValue -> {
+
+                        JsonObject studentJsonObject = studentValue.asJsonObject();
+                        String studentName = studentJsonObject.getString("name");
+                        int age = studentJsonObject.getInt("age");
+                        double gpa = studentJsonObject.getJsonNumber("gpa").doubleValue();
+
+                        JsonObject addressJsonObject = studentJsonObject.getJsonObject("address");
+                        Address address = new Address(
+                          addressJsonObject.getString("street"),
+                          addressJsonObject.getString("city"),
+                          addressJsonObject.getString("state"),
+                          addressJsonObject.getString("zip")
+                        );
+
+                        Student student = new Student(
+                          name, age, gpa, address
+                        );
+                        res.add(student);
+                    });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    //viet file co dieu kien
+    public static void writeStudentByClassNameToJson(List<Student> students, String fileName) {
+
+        //config pretty
+        Map<String, Object> config = new HashMap<>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(config);
+
+        try (JsonWriter writer = jsonWriterFactory.createWriter(new FileWriter(fileName))) {
+
+            JsonArrayBuilder studentJsonArray = Json.createArrayBuilder();
+
+            students.forEach(student -> {
+                JsonObjectBuilder studentJsonObject = Json
+                        .createObjectBuilder()
+                        .add("name", student.getName())
+                        .add("age", student.getAge())
+                        .add("gpa", student.getGpa());
+
+                Address address = student.getAddress();
+                JsonObjectBuilder addressJsonObject = Json
+                        .createObjectBuilder()
+                        .add("street", address.getStreet())
+                        .add("city", address.getCity())
+                        .add("state", address.getCity())
+                        .add("state", address.getState())
+                        .add("zip", address.getZip());
+                studentJsonObject.add("address", addressJsonObject);
+                studentJsonArray.add(studentJsonObject);
+            });
+
+            writer.write(studentJsonArray.build());
 
         } catch (Exception e) {
             e.printStackTrace();
