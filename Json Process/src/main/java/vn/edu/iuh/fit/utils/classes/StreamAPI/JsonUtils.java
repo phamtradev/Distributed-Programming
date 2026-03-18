@@ -160,4 +160,37 @@ public class JsonUtils {
         }
     }
 
+    //doc file co dieu kien
+    public static List<Student> listStudentByClassName(String className, String fileName) {
+
+        List<Student> res = new ArrayList<>();
+
+        try (JsonParser parser = Json.createParser(new FileReader(fileName))) {
+
+            while (parser.hasNext()) {
+                JsonParser.Event event = parser.next();
+
+                switch (event) {
+                    case START_OBJECT -> {
+
+                    }
+                    case END_OBJECT -> {
+
+                    }
+                    case KEY_NAME -> {
+
+                    }
+                    case VALUE_STRING -> {
+
+                    }
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
 }

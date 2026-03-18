@@ -7,9 +7,9 @@ import java.util.List;
 
 public class StreamAPIMain {
     public static void main(String[] args) {
-        List<ClassInfo> res = JsonUtils.fromJson("Json Process/json/classes/classes.json");
-        res.forEach(System.out::println);
-
-        JsonUtils.toJson(res, "Json Process/json/classes/classes3.json");
+//        List<ClassInfo> res = JsonUtils.fromJson("Json Process/json/classes/classes.json");
+//        res.forEach(System.out::println);
+//
+//        JsonUtils.toJson(res, "Json Process/json/classes/classes3.json");
     }
 }
