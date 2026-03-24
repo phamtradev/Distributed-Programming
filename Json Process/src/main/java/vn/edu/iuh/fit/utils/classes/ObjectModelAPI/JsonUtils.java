@@ -172,7 +172,7 @@ public class JsonUtils {
     //viet file co dieu kien
     public static void writeStudentByClassNameToJson(List<Student> students, String fileName) {
 
-        //config pretty
+
         Map<String, Object> config = new HashMap<>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(config);
