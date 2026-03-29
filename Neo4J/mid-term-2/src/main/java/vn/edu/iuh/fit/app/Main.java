@@ -29,7 +29,9 @@ public class Main {
             System.out.println("NHAP DEPARTMENT NAME: ");
             String departmentName = scanner.nextLine();
             Map<String, Long> result = doctorServiceImpl.getNoOfDoctorBySpeciality(departmentName);
-            System.out.println(result);
+            result.forEach((k, v) -> {
+                System.out.println(k + ":" + v);
+            });
 
         } catch (Exception e) {
             e.printStackTrace();
