@@ -44,27 +44,24 @@ public class DoctorRepository {
         }
     }
 
-    public Map<String, Long> getNoOfDoctorsBySpeciality(String departmentId) {
+    public Map<String, Long> getNoOfDoctorBySpeciality(String departmentName) {
         String cypher = """
                 MATCH (d:Doctor) - [r:BELONG_TO] -> (dp:Department)
-                WHERE dp.name = $departmentId
+                WHERE dp.name = $departmentName
                 RETURN d.speciality as speciality, count (d) as totalDoctor
                 """;
 
         Map<String, Object> params = Map.of(
-                "departmentId", departmentId
+                "departmentName", departmentName
         );
 
         try (Session session = ConnectDB.getSession()) {
-            return session.executeRead(tx -> {
-                Result result = tx.run(cypher, params);
-
-                return result.stream()
-                        .collect(Collectors.toMap(
-                                r -> r.get("speciality").asString(),
-                                r -> r.get("totalDoctor").asLong()
-                        ));
-            });
+            Result result = session.run(cypher, params);
+            return result.stream()
+                    .collect(Collectors.toMap(
+                            r -> r.get("speciality").asString(),
+                            r -> r.get("totalDoctor").asLong()
+                    ));
         }
     }
 }

@@ -15,20 +15,20 @@ public class Main {
 
         DoctorRepository doctorRepository = new DoctorRepository();
 
-        DoctorService doctorService = new DoctorServiceImpl(doctorRepository);
+        DoctorServiceImpl doctorServiceImpl = new DoctorServiceImpl(doctorRepository);
 
         Scanner scanner = new Scanner(System.in);
         try {
             System.out.println("TIM DOCTOR THEO ID");
             System.out.println("NHAP ID DOCTOR: ");
             String doctorId = scanner.nextLine();
-            Doctor doctor = doctorService.findDoctorById(doctorId);
+            Doctor doctor = doctorServiceImpl.findDoctorById(doctorId);
             System.out.println(doctor);
 
-            System.out.println("THONG KE BAC SI THEO TUNG CHUYEN KHOA");
-            System.out.println("NHAP ID DEPARTMENT: ");
-            String departmentId = scanner.nextLine();
-            Map<String, Long> result = doctorService.getNoOfDoctorsBySpeciality(departmentId);
+            System.out.println("THONG KE SO BAC SI THEO TUNG CHUYEN KHOA CUA MOT KHOA");
+            System.out.println("NHAP DEPARTMENT NAME: ");
+            String departmentName = scanner.nextLine();
+            Map<String, Long> result = doctorServiceImpl.getNoOfDoctorBySpeciality(departmentName);
             System.out.println(result);
 
         } catch (Exception e) {

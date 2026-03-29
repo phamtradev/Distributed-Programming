@@ -8,5 +8,5 @@ public interface DoctorService {
 
     Doctor findDoctorById(String doctorId);
 
-    Map<String, Long> getNoOfDoctorsBySpeciality(String departmentId);
+    Map<String, Long> getNoOfDoctorBySpeciality(String departmentName);
 }

@@ -23,10 +23,12 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Map<String, Long> getNoOfDoctorsBySpeciality(String departmentId) {
-        if (departmentId == null || departmentId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Department Id ko dc trong");
+    public Map<String, Long> getNoOfDoctorBySpeciality(String departmentName) {
+        if (departmentName == null || departmentName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Department Name ko dc trong");
         }
-        return doctorRepository.getNoOfDoctorsBySpeciality(departmentId);
+        return doctorRepository.getNoOfDoctorBySpeciality(departmentName);
     }
+
+
 }
