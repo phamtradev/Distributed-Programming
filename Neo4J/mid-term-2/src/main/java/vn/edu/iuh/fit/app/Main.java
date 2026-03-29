@@ -5,6 +5,7 @@ import vn.edu.iuh.fit.repository.DoctorRepository;
 import vn.edu.iuh.fit.service.DoctorService;
 import vn.edu.iuh.fit.service.impl.DoctorServiceImpl;
 
+import java.util.Map;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -20,9 +21,15 @@ public class Main {
         try {
             System.out.println("TIM DOCTOR THEO ID");
             System.out.println("NHAP ID DOCTOR: ");
-            String id = scanner.nextLine();
-            Doctor doctor = doctorService.findDoctorById(id);
+            String doctorId = scanner.nextLine();
+            Doctor doctor = doctorService.findDoctorById(doctorId);
             System.out.println(doctor);
+
+            System.out.println("THONG KE BAC SI THEO TUNG CHUYEN KHOA");
+            System.out.println("NHAP ID DEPARTMENT: ");
+            String departmentId = scanner.nextLine();
+            Map<String, Long> result = doctorService.getNoOfDoctorsBySpeciality(departmentId);
+            System.out.println(result);
 
         } catch (Exception e) {
             e.printStackTrace();

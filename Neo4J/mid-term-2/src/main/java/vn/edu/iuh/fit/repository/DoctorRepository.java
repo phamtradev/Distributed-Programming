@@ -7,7 +7,7 @@ import vn.edu.iuh.fit.db.ConnectDB;
 import vn.edu.iuh.fit.model.Doctor;
 
 import java.util.Map;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class DoctorRepository {
 
@@ -40,6 +40,30 @@ public class DoctorRepository {
                 } else {
                     return null;
                 }
+            });
+        }
+    }
+
+    public Map<String, Long> getNoOfDoctorsBySpeciality(String departmentId) {
+        String cypher = """
+                MATCH (d:Doctor) - [r:BELONG_TO] -> (dp:Department)
+                WHERE dp.name = $departmentId
+                RETURN d.speciality as speciality, count (d) as totalDoctor
+                """;
+
+        Map<String, Object> params = Map.of(
+                "departmentId", departmentId
+        );
+
+        try (Session session = ConnectDB.getSession()) {
+            return session.executeRead(tx -> {
+                Result result = tx.run(cypher, params);
+
+                return result.stream()
+                        .collect(Collectors.toMap(
+                                r -> r.get("speciality").asString(),
+                                r -> r.get("totalDoctor").asLong()
+                        ));
             });
         }
     }
