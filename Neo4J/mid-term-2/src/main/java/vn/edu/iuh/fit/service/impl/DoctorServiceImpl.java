@@ -2,6 +2,7 @@ package vn.edu.iuh.fit.service.impl;
 
 import vn.edu.iuh.fit.model.Doctor;
 import vn.edu.iuh.fit.repository.DoctorRepository;
+import vn.edu.iuh.fit.repository.impl.DoctorRepositoryImpl;
 import vn.edu.iuh.fit.service.DoctorService;
 
 import java.util.Map;

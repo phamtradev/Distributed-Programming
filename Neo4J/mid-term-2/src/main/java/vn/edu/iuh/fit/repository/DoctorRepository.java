@@ -1,97 +1,14 @@
 package vn.edu.iuh.fit.repository;
 
-import org.neo4j.driver.Result;
-import org.neo4j.driver.Session;
-import org.neo4j.driver.summary.ResultSummary;
-import org.neo4j.driver.types.Node;
-import vn.edu.iuh.fit.db.ConnectDB;
 import vn.edu.iuh.fit.model.Doctor;
 
-import javax.naming.ContextNotEmptyException;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class DoctorRepository {
+public interface DoctorRepository {
 
-    public Doctor findDoctorById(String doctorId) {
-        String cypher =
-                """
-                        MATCH (d:Doctor)
-                        WHERE d.doctor_id = $doctorId
-                        RETURN d
-                        """;
-        Map<String, Object> params = Map.of(
-                "doctorId", doctorId
-        );
+    Doctor findDoctorById(String doctorId);
 
-        try (Session session = ConnectDB.getSession()) {
-            return session.executeRead(tx -> {
-                Result result = tx.run(cypher, params);
+    Map<String, Long> getNoOfDoctorBySpeciality(String departmentName);
 
-                if (result.hasNext()) {
-                    Node node = result.next().get("d").asNode();
-
-                    return Doctor
-                            .builder()
-                            .speciality(node.get("speciality").asString())
-                            .doctorId(node.get("doctor_id").asString())
-                            .phone(node.get("phone").asString())
-                            .name(node.get("name").asString())
-                            .departmentId(node.get("dept_id").asString())
-                            .build();
-                } else {
-                    return null;
-                }
-            });
-        }
-    }
-
-    public Map<String, Long> getNoOfDoctorBySpeciality(String departmentName) {
-        String cypher = """
-                MATCH (d:Doctor) - [r:BELONG_TO] -> (dp:Department)
-                WHERE dp.name = $departmentName
-                RETURN d.speciality as speciality, count (d) as totalDoctor
-                """;
-
-        Map<String, Object> params = Map.of(
-                "departmentName", departmentName
-        );
-
-        try (Session session = ConnectDB.getSession()) {
-            Result result = session.run(cypher, params);
-            return result.stream()
-                    .collect(Collectors.toMap(
-                            r -> r.get("speciality").asString(),
-                            r -> r.get("totalDoctor").asLong()
-                    ));
-        }
-    }
-
-    public boolean addDoctor(Doctor doctor) {
-        String cypher = """
-                CREATE (d:Doctor)
-                SET d.doctor_id = $doctorId,
-                d.name = $name,
-                d.phone = $phone,
-                d.dept_id = $departmentId,
-                d.speciality = $speciality
-                RETURN d
-                """;
-
-        Map<String, Object> params = Map.of(
-                "doctorId", doctor.getDoctorId(),
-                "name", doctor.getName(),
-                "phone", doctor.getPhone(),
-                "departmentId", doctor.getDepartmentId(),
-                "speciality", doctor.getSpeciality()
-        );
-
-        try (Session session = ConnectDB.getSession()) {
-            return session.executeWrite(tx -> {
-                ResultSummary resultSummary = tx.run(cypher, params).consume();
-
-                return resultSummary.counters().nodesCreated() > 0;
-            });
-        }
-    }
+    boolean addDoctor(Doctor doctor);
 }
