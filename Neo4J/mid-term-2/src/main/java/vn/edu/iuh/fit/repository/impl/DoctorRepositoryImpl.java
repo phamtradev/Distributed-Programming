@@ -8,6 +8,7 @@ import vn.edu.iuh.fit.db.ConnectDB;
 import vn.edu.iuh.fit.model.Doctor;
 import vn.edu.iuh.fit.repository.DoctorRepository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -84,6 +85,36 @@ public class DoctorRepositoryImpl implements DoctorRepository {
             return session.executeWrite(tx -> {
                 ResultSummary summary = tx.run(cypher, params).consume();
                 return summary.counters().nodesCreated() > 0;
+            });
+        }
+    }
+
+    @Override
+    public List<Doctor> listDoctorBySpeciality(String keyword) {
+        String cypher = """
+                CALL db.index.fulltext.queryNodes("specialityFTI", $keyword) YIELD node
+                RETURN node
+                """;
+
+        Map<String, Object> params = Map.of(
+                "keyword", keyword
+        );
+
+        try (Session session = ConnectDB.getSession()) {
+            return session.executeRead(tx -> {
+                Result result = tx.run(cypher, params);
+                return result
+                        .stream()
+                        .map(r -> {
+                            Node node = r.get("node").asNode();
+                            return Doctor.builder()
+                                    .doctorId(node.get("doctor_id").asString())
+                                    .name(node.get("name").asString())
+                                    .phone(node.get("phone").asString())
+                                    .speciality(node.get("speciality").asString())
+                                    .departmentId(node.get("dept_id").asString())
+                                    .build();
+                        }).toList();
             });
         }
     }

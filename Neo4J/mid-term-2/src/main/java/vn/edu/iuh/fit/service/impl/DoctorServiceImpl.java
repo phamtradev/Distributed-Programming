@@ -2,9 +2,9 @@ package vn.edu.iuh.fit.service.impl;
 
 import vn.edu.iuh.fit.model.Doctor;
 import vn.edu.iuh.fit.repository.DoctorRepository;
-import vn.edu.iuh.fit.repository.impl.DoctorRepositoryImpl;
 import vn.edu.iuh.fit.service.DoctorService;
 
+import java.util.List;
 import java.util.Map;
 
 public class DoctorServiceImpl implements DoctorService {
@@ -37,6 +37,14 @@ public class DoctorServiceImpl implements DoctorService {
             throw new IllegalArgumentException("Name va id ko dc trong");
         }
         return doctorRepository.addDoctor(doctor);
+    }
+
+    @Override
+    public List<Doctor> listDoctorBySpeciality(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            throw new IllegalArgumentException("Key word ko dc trong");
+        }
+        return doctorRepository.listDoctorBySpeciality(keyword);
     }
 
 

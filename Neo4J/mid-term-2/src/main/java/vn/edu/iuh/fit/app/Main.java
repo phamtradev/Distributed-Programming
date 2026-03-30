@@ -7,6 +7,7 @@ import vn.edu.iuh.fit.service.DoctorService;
 import vn.edu.iuh.fit.service.impl.DoctorServiceImpl;
 
 import javax.print.Doc;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -18,11 +19,6 @@ public class Main {
         DoctorRepository doctorRepository = new DoctorRepositoryImpl();
 
         DoctorService doctorService = new DoctorServiceImpl(doctorRepository);
-        System.out.println("1. Tim Doctor theo ID");
-        System.out.println("2. Thong ke bac si theo chuyen khoa");
-        System.out.println("3. Them Doctor moi");
-        System.out.println("0. Thoat");
-        System.out.print("Chon chuc nang: ");
 
         try {
             System.out.println("TIM DOCTOR THEO ID");
@@ -61,6 +57,10 @@ public class Main {
             System.out.println("--- THEM DOCTOR THANH CONG! ---");
             System.out.println(newDoctor);
 
+            System.out.println("SEARCH KEY WORD");
+            String keyword = "Dermatology";
+            List<Doctor> doctors = doctorService.listDoctorBySpeciality(keyword);
+            doctors.forEach(System.out::println);
         } catch (Exception e) {
             e.printStackTrace();
         }

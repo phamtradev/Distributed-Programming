@@ -2,6 +2,7 @@ package vn.edu.iuh.fit.repository;
 
 import vn.edu.iuh.fit.model.Doctor;
 
+import java.util.List;
 import java.util.Map;
 
 public interface DoctorRepository {
@@ -11,4 +12,6 @@ public interface DoctorRepository {
     Map<String, Long> getNoOfDoctorBySpeciality(String departmentName);
 
     boolean addDoctor(Doctor doctor);
+
+    List<Doctor> listDoctorBySpeciality(String keyword);
 }
