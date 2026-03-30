@@ -61,6 +61,14 @@ public class Main {
             String keyword = "Dermatology";
             List<Doctor> doctors = doctorService.listDoctorBySpeciality(keyword);
             doctors.forEach(System.out::println);
+
+            System.out.println("UPDATE DIAGNOSIS");
+            String doctorIds = "DR.005";
+            String patientId = "PT007";
+            String newDiagnosis = "OK hihi";
+            doctorService.updateDiagnosis(doctorIds, patientId, newDiagnosis);
+            System.out.println("--- CAP NHAT THANH CONG! ---");
+            System.out.println(newDiagnosis);
         } catch (Exception e) {
             e.printStackTrace();
         }

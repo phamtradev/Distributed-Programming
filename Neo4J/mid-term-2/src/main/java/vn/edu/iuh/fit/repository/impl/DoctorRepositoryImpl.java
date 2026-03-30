@@ -118,4 +118,25 @@ public class DoctorRepositoryImpl implements DoctorRepository {
             });
         }
     }
+
+    @Override
+    public boolean updateDiagnosis(String doctorId, String patientId, String newDiagnosis) {
+        String cypher = """
+                MATCH (d:Doctor) <- [r:BE_TREATED] - (p:Patient)
+                WHERE d.doctor_id = $doctorId AND p.patient_id = $patientId AND r.endDate is null
+                SET r.diagnosis = $newDiagnosis
+                """;
+        Map<String, Object> params = Map.of(
+                "doctorId", doctorId,
+                "patientId", patientId,
+                "newDiagnosis", newDiagnosis
+        );
+
+        try (Session session = ConnectDB.getSession()) {
+            return session.executeWrite(tx -> {
+                ResultSummary resultSummary = tx.run(cypher, params).consume();
+                return resultSummary.counters().propertiesSet() > 0;
+            });
+        }
+    }
 }

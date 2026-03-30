@@ -47,5 +47,13 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorRepository.listDoctorBySpeciality(keyword);
     }
 
+    @Override
+    public boolean updateDiagnosis(String doctorId, String patientId, String newDiagnosis) {
+        if (doctorId == null || patientId == null || newDiagnosis == null) {
+            throw new IllegalArgumentException("Doctor id ko dc trong");
+        }
+        return doctorRepository.updateDiagnosis(doctorId, patientId, newDiagnosis);
+    }
+
 
 }

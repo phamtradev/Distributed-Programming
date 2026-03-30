@@ -14,4 +14,6 @@ public interface DoctorRepository {
     boolean addDoctor(Doctor doctor);
 
     List<Doctor> listDoctorBySpeciality(String keyword);
+
+    boolean updateDiagnosis(String doctorId, String patientId, String newDiagnosis);
 }

@@ -15,4 +15,6 @@ public interface DoctorService {
 
     List<Doctor> listDoctorBySpeciality(String keyword);
 
+    boolean updateDiagnosis(String doctorId, String patientId, String newDiagnosis);
+
 }
