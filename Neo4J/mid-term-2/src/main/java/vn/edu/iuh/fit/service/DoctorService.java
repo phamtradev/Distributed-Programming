@@ -9,4 +9,7 @@ public interface DoctorService {
     Doctor findDoctorById(String doctorId);
 
     Map<String, Long> getNoOfDoctorBySpeciality(String departmentName);
+
+    boolean addDoctor(Doctor doctor);
+
 }

@@ -30,5 +30,13 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorRepository.getNoOfDoctorBySpeciality(departmentName);
     }
 
+    @Override
+    public boolean addDoctor(Doctor doctor) {
+        if (doctor.getName() == null || doctor.getDoctorId() == null) {
+            throw new IllegalArgumentException("Name va id ko dc trong");
+        }
+        return doctorRepository.addDoctor(doctor);
+    }
+
 
 }
