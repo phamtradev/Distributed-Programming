@@ -2,7 +2,7 @@ package vn.edu.iuh.fit.app;
 
 import tools.jackson.databind.ObjectMapper;
 import vn.edu.iuh.fit.dto.CreateDoctorDTO;
-import vn.edu.iuh.fit.mapper.GenericDataMapper;
+import vn.edu.iuh.fit.dto.DoctorDTO;
 import vn.edu.iuh.fit.mapper.JacksonDataMapper;
 import vn.edu.iuh.fit.model.Doctor;
 import vn.edu.iuh.fit.repository.DoctorRepository;
@@ -10,10 +10,8 @@ import vn.edu.iuh.fit.repository.impl.DoctorRepositoryImpl;
 import vn.edu.iuh.fit.service.DoctorService;
 import vn.edu.iuh.fit.service.impl.DoctorServiceImpl;
 
-import javax.print.Doc;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -28,7 +26,7 @@ public class Main {
         try {
             System.out.println("TIM DOCTOR THEO ID");
             String doctorId = "DR.017";
-            Doctor doctor = doctorService.findDoctorById(doctorId);
+            DoctorDTO doctor = doctorService.findDoctorById(doctorId);
             if (doctor != null) {
                 System.out.println("KET QUA: " + doctor);
             } else {

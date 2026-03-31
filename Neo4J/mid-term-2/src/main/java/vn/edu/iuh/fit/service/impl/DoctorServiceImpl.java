@@ -1,6 +1,7 @@
 package vn.edu.iuh.fit.service.impl;
 
 import vn.edu.iuh.fit.dto.CreateDoctorDTO;
+import vn.edu.iuh.fit.dto.DoctorDTO;
 import vn.edu.iuh.fit.mapper.GenericDataMapper;
 import vn.edu.iuh.fit.model.Doctor;
 import vn.edu.iuh.fit.repository.DoctorRepository;
@@ -21,11 +22,12 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     @Override
-    public Doctor findDoctorById(String doctorId) {
-        if (doctorId == null || doctorId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Doctor Id ko dc trong");
+    public DoctorDTO findDoctorById(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("Id ko dc null");
         }
-        return doctorRepository.findDoctorById(doctorId);
+        Doctor doctor = doctorRepository.findDoctorById(id);
+        return mapper.toObject(mapper.toMap(doctor), DoctorDTO.class);
     }
 
     @Override
