@@ -1,5 +1,7 @@
 package vn.edu.iuh.fit.service.impl;
 
+import vn.edu.iuh.fit.dto.CreateDoctorDTO;
+import vn.edu.iuh.fit.mapper.GenericDataMapper;
 import vn.edu.iuh.fit.model.Doctor;
 import vn.edu.iuh.fit.repository.DoctorRepository;
 import vn.edu.iuh.fit.service.DoctorService;
@@ -10,10 +12,13 @@ import java.util.Map;
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final GenericDataMapper mapper;
 
-    public DoctorServiceImpl(DoctorRepository doctorRepository) {
+    public DoctorServiceImpl(DoctorRepository doctorRepository, GenericDataMapper mapper) {
         this.doctorRepository = doctorRepository;
+        this.mapper = mapper;
     }
+
 
     @Override
     public Doctor findDoctorById(String doctorId) {
@@ -32,10 +37,12 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public boolean addDoctor(Doctor doctor) {
-        if (doctor.getName() == null || doctor.getDoctorId() == null) {
+    public boolean addDoctor(CreateDoctorDTO createDoctorDTO) {
+        if (createDoctorDTO.getName() == null || createDoctorDTO.getDoctorId() == null) {
             throw new IllegalArgumentException("Name va id ko dc trong");
         }
+        Doctor doctor = mapper.toObject(mapper.toMap(createDoctorDTO), Doctor.class);
+
         return doctorRepository.addDoctor(doctor);
     }
 

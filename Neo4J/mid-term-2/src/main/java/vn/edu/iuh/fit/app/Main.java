@@ -1,5 +1,9 @@
 package vn.edu.iuh.fit.app;
 
+import tools.jackson.databind.ObjectMapper;
+import vn.edu.iuh.fit.dto.CreateDoctorDTO;
+import vn.edu.iuh.fit.mapper.GenericDataMapper;
+import vn.edu.iuh.fit.mapper.JacksonDataMapper;
 import vn.edu.iuh.fit.model.Doctor;
 import vn.edu.iuh.fit.repository.DoctorRepository;
 import vn.edu.iuh.fit.repository.impl.DoctorRepositoryImpl;
@@ -17,8 +21,9 @@ public class Main {
     public static void main(String[] args) {
 
         DoctorRepository doctorRepository = new DoctorRepositoryImpl();
+        JacksonDataMapper mapper = new JacksonDataMapper(new ObjectMapper());
 
-        DoctorService doctorService = new DoctorServiceImpl(doctorRepository);
+        DoctorService doctorService = new DoctorServiceImpl(doctorRepository, mapper);
 
         try {
             System.out.println("TIM DOCTOR THEO ID");
@@ -44,7 +49,7 @@ public class Main {
             }
 
             System.out.println("THEM DOCTOR MOI");
-            Doctor newDoctor = Doctor
+            CreateDoctorDTO newDoctor = CreateDoctorDTO
                     .builder()
                     .doctorId("DR.099")
                     .name("AHIHI")

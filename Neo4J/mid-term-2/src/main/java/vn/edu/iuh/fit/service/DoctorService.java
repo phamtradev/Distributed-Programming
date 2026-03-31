@@ -1,5 +1,6 @@
 package vn.edu.iuh.fit.service;
 
+import vn.edu.iuh.fit.dto.CreateDoctorDTO;
 import vn.edu.iuh.fit.model.Doctor;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface DoctorService {
 
     Map<String, Long> getNoOfDoctorBySpeciality(String departmentName);
 
-    boolean addDoctor(Doctor doctor);
+    boolean addDoctor(CreateDoctorDTO createDoctorDTO);
 
     List<Doctor> listDoctorBySpeciality(String keyword);
 
