@@ -2,8 +2,6 @@ package vn.edu.iuh.fit.model;
 
 import lombok.*;
 
-import javax.management.MXBean;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,10 +10,10 @@ import javax.management.MXBean;
 @Builder
 public class OrderDetail {
 
-    private Order order;
+    private Order oder;
     private Product product;
     private int quantity;
     private double unitPrice;
     private double discount;
-
+    
 }

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(javap -c -classpath lib/PhamVanTra_23633471_JPA_ORM_Socket-1.0-SNAPSHOT.jar vn.edu.iuh.fit.network.Server)"
+    ]
+  }
+}

@@ -24,11 +24,8 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public List<Product> listProductsBySupplier(ProductsBySupplierDTO request) {
-        if (request == null) {
-            throw new IllegalArgumentException("requestDTO không được null");
-        }
         if (request.getCompanyName() == null || request.getCompanyName().trim().isEmpty()) {
-            throw new IllegalArgumentException("companyName không được null hoặc rỗng");
+            throw new IllegalArgumentException("Company name ko dc null hoac rong");
         }
         if (request.getPage() < 1) {
             throw new IllegalArgumentException("page phải >= 1");
@@ -37,29 +34,29 @@ public class SupplierServiceImpl implements SupplierService {
             throw new IllegalArgumentException("size phải >= 1");
         }
         return supplierRepository.listProductsBySupplier(
-                request.getCompanyName().trim(),
+                request.getCompanyName(),
                 request.getPage(),
                 request.getSize()
         );
     }
 
     @Override
-    public boolean updateSupplier(UpdateSupplierDTO updateSupplierDTO) {
-        if (updateSupplierDTO == null) {
-            throw new IllegalArgumentException("dto không được null");
+    public boolean updateSupplier(UpdateSupplierDTO request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Supplier ko dc null");
         }
-        if (updateSupplierDTO.getSupplierID() == null || updateSupplierDTO.getSupplierID().trim().isEmpty()) {
-            throw new IllegalArgumentException("SupplierID không được null hoặc rỗng");
+        if (request.getSupplierID() == null || request.getSupplierID().trim().isEmpty()) {
+            throw new IllegalArgumentException("Supplier id ko dc null hoac rong");
         }
-        if (updateSupplierDTO.getCompanyName() == null || updateSupplierDTO.getCompanyName().trim().isEmpty()) {
-            throw new IllegalArgumentException("CompanyName không được null hoặc rỗng");
+        if (request.getCompanyName() == null || request.getCompanyName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Company name ko dc null hoac rong");
         }
         Supplier supplier = Supplier
                 .builder()
-                .supplierID(updateSupplierDTO.getSupplierID())
-                .country(updateSupplierDTO.getCountry())
-                .contactName(updateSupplierDTO.getContactName())
-                .companyName(updateSupplierDTO.getCompanyName())
+                .supplierID(request.getSupplierID())
+                .country(request.getCountry())
+                .contactName(request.getContactName())
+                .companyName(request.getCompanyName())
                 .build();
         return supplierRepository.updateSupplier(supplier);
     }

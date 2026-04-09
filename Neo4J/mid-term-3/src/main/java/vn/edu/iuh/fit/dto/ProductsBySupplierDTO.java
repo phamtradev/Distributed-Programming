@@ -13,4 +13,5 @@ public class ProductsBySupplierDTO {
     private String companyName;
     private int page;
     private int size;
+
 }

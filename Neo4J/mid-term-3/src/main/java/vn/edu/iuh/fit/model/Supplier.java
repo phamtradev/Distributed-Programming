@@ -18,4 +18,5 @@ public class Supplier {
     private String country;
 
     private List<Product> products;
+
 }

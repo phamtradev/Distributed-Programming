@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PhamVanTra_23633471_JPA_ORM_Socket/PhamVanTra_23633471_JPA_ORM_Socket.iml" filepath="$PROJECT_DIR$/PhamVanTra_23633471_JPA_ORM_Socket/PhamVanTra_23633471_JPA_ORM_Socket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PhamVanTra_23633471_JPA_ORM_Socket_Server.iml" filepath="$PROJECT_DIR$/.idea/PhamVanTra_23633471_JPA_ORM_Socket_Server.iml" />
+    </modules>
+  </component>
+</project>

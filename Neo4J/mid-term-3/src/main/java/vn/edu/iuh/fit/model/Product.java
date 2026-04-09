@@ -16,7 +16,7 @@ public class Product {
     private String productName;
     private String unit;
     private double unitPrice;
-    private int unitsInstock;
+    private int unitsInStock;
 
     private Supplier supplier;
     private List<OrderDetail> orderDetails;

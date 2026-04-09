@@ -1,9 +1,6 @@
 package vn.edu.iuh.fit.dto;
 
 import lombok.*;
-import vn.edu.iuh.fit.model.Product;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,5 +14,4 @@ public class UpdateSupplierDTO {
     private String companyName;
     private String contactName;
     private String country;
-
 }

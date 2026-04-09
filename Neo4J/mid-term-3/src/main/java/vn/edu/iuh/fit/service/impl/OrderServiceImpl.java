@@ -5,7 +5,7 @@ import vn.edu.iuh.fit.service.OrderService;
 
 public class OrderServiceImpl implements OrderService {
 
-    private final OrderRepository orderRepository;
+    private OrderRepository orderRepository;
 
     public OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;

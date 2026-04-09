@@ -11,8 +11,10 @@ import vn.edu.iuh.fit.repository.SupplierRepository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SupplierRepositoryImpl implements SupplierRepository {
+
     @Override
     public boolean createRangeIndexOnCompanyName() {
         String cypher = """
@@ -38,13 +40,14 @@ public class SupplierRepositoryImpl implements SupplierRepository {
                 SKIP $skip
                 LIMIT $limit
                 """;
-        int skip = (page - 1) * size;
 
+        int skip = (page - 1) * size;
         Map<String, Object> params = Map.of(
                 "companyName", companyName,
                 "skip", skip,
                 "limit", size
         );
+
         try (Session session = ConnectDB.getSession()) {
             return session.executeRead(tx -> {
                 Result result = tx.run(cypher, params);
@@ -65,14 +68,15 @@ public class SupplierRepositoryImpl implements SupplierRepository {
                                     .builder()
                                     .productID(pNode.get("product_id").asString())
                                     .productName(pNode.get("product_name").asString())
-                                    .unit(pNode.get("unit").isNull() ? null : pNode.get("unit").asString())
+                                    .unit(pNode.get("unit").asString())
                                     .unitPrice(pNode.get("unit_price").isNull() ? 0.0 : pNode.get("unit_price").asDouble())
-                                    .unitsInstock(pNode.get("unit_in_stock").isNull() ? 0 : pNode.get("unit_in_stock").asInt())
+                                    .unitsInStock(pNode.get("unit_in_stock").isNull() ? 0 : pNode.get("unit_in_stock").asInt())
                                     .supplier(supplier)
                                     .build();
                         }).toList();
             });
         }
+
     }
 
     @Override
@@ -80,24 +84,24 @@ public class SupplierRepositoryImpl implements SupplierRepository {
         String cypher = """
                 MATCH (s:Supplier)
                 WHERE s.supplier_id = $supplierID
-                SET s.country = $country,
-                    s.contact_name = $contactName,
-                    s.company_name = $companyName
-                RETURN s
+                SET s.company_name = $companyName,
+                s.contact_name = $contactName,
+                s.country = $country
                 """;
-
         Map<String, Object> params = Map.of(
                 "supplierID", supplier.getSupplierID(),
-                "country", supplier.getCountry(),
+                "companyName", supplier.getCompanyName(),
                 "contactName", supplier.getContactName(),
-                "companyName", supplier.getCompanyName()
+                "country", supplier.getCountry()
         );
 
         try (Session session = ConnectDB.getSession()) {
             return session.executeWrite(tx -> {
-                ResultSummary summary = tx.run(cypher, params).consume();
-                return summary.counters().propertiesSet() > 0;
+                ResultSummary resultSummary = tx.run(cypher, params).consume();
+                return resultSummary.counters().propertiesSet() > 0;
             });
         }
     }
+
+
 }
